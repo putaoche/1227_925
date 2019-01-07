@@ -13,6 +13,7 @@
 <div class="wrap">
     <button id="btnLogout">登出</button>
     <div id="userName"></div>
+    <div id="WeatherInfo"></div>
 </div>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="../static/js-cookie.js"></script>
@@ -20,41 +21,45 @@
 <script>
     $(document).ready(function () {
 
-        $.ajax({
-            url: 'http://wthrcdn.etouch.cn/weather_mini?citykey=101210701',
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                $('#chuanyi').html(res.data.city + "当前温度为" + res.data.wendu + "℃" + res.data.ganmao);
-            }
-        });
+        // $.ajax({
+        //     url: 'http://wthrcdn.etouch.cn/weather_mini?citykey=101210701',
+        //     type: 'GET',
+        //     dataType: 'json',
+        //     success: function (res) {
+        //         $('#chuanyi').html(res.data.city + "当前温度为" + res.data.wendu + "℃" + res.data.ganmao);
+        //     }
+        // });
+
+        // $.ajax({
+        //     url: 'https://www.tianqiapi.com/api/',
+        //     data: 'version=v1&city=温州',
+        //     type: 'GET',
+        //     dataType: 'JSON',
+        //     success: function (res) {
+        //         $('#wendu').html('最低气温' + res.data[0].tem2 + ",最高气温" + res.data[0].tem1);
+        //     },
+        //     error: function () {
+        //         alert('网络错误');
+        //     }
+        // });
 
         $.ajax({
-            url: 'https://www.tianqiapi.com/api/',
-            data: 'version=v1&city=温州',
-            type: 'GET',
-            dataType: 'JSON',
-            success: function (res) {
-                $('#wendu').html('最低气温' + res.data[0].tem2 + ",最高气温" + res.data[0].tem1);
-            },
-            error: function () {
-                alert('网络错误');
-            }
-        });
-
-        $.ajax({
-            url: 'http://10.30.29.89:8080/userinfo.php',
+            url: 'http://10.30.29.89:80/ProgrammingAbilityAdvancedClass/indexinfo.php',
             type: 'GET',
             dataType: 'json',
             xhrFields: {withCredentials: true},
             success: function (res) {
                 $('#userName').html(res.userName);
+                 $('#WeatherInfo').html(res.WeatherInfo);
+                 if(res.userName==""){
+                     location.href = 'unlogin.html';
+                 }
             }
         })
 
         $('#btnLogout').click(function () {
             $.ajax({
-                url: 'http://10.30.29.79:3000/logout',
+                url: 'http://10.30.29.89:80/ProgrammingAbilityAdvancedClass/logoutserver.php',
                 type: 'GET',
                 contentType: 'application/json;charset=utf-8',
                 xhrFields: {withCredentials: true},
